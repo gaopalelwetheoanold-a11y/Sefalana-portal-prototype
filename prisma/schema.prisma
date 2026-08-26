@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password_hash String
+  full_name    String
+  role         String   @default("editor")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  @@map("admin_users")
+}
+
+model Store {
+  id         Int      @id @default(autoincrement())
+  name       String
+  format     String
+  address    String?
+  city       String
+  latitude   Float?
+  longitude  Float?
+  phone      String?
+  is_open    Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  @@map("stores")
+}
+
+model Special {
+  id                 Int      @id @default(autoincrement())
+  title              String
+  description        String?
+  price_bwp          Float
+  original_price_bwp Float?
+  image_url          String?
+  active             Boolean  @default(true)
+  start_date         DateTime @default(now())
+  end_date           DateTime @default(now())
+  created_by         Int?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  @@map("specials")
+}
+
+model SupplierInquiry {
+  id           Int      @id @default(autoincrement())
+  company_name String
+  contact_name String?
+  contact_email String
+  contact_phone String?
+  message      String
+  sanitized    Boolean  @default(false)
+  received_at  DateTime @default(now())
+  @@map("supplier_inquiries")
+}

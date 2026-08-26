@@ -1,0 +1,35 @@
+{
+  "name": "sefalana-portal-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prepare": "prisma generate"
+  },
+  "dependencies": {
+    "next": "14.3.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "pg": "^8.11.0",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "tailwindcss": "^3.4.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "dotenv": "^16.3.1",
+    "@prisma/client": "5.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "eslint": "8.48.0",
+    "eslint-config-next": "14.3.0",
+    "prisma": "5.11.0"
+  }
+}
