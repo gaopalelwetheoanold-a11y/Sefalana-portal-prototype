@@ -1,0 +1,1423 @@
+<!-- ============================================ -->
+<!-- index.html - Sefalana Enterprise Website    -->
+<!-- Main Entry Point                            -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sefalana - Botswana's Leading FMCG & Retail Wholesale Giant. Find stores, view weekly specials, and partner with us.">
+    <meta name="keywords" content="Sefalana, Botswana, FMCG, Retail, Wholesale, Grocery, Specials">
+    <meta name="author" content="Sefalana Group">
+    
+    <!-- Security Headers (Simulated) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <title>Sefalana - Botswana's Leading FMCG & Retail Wholesale Giant</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sef-navy': '#0A192F',
+                        'sef-gold': '#FFD700',
+                        'sef-deepblue': '#1B2A4A',
+                        'sef-lightblue': '#2C3E50',
+                    },
+                    fontFamily: {
+                        'sans': ['Arial', 'Helvetica', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        
+        .savings-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0A192F;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- ============================================ -->
+    <!-- Navigation Bar                              -->
+    <!-- ============================================ -->
+    <nav id="navbar" class="bg-sef-navy text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-10 h-10 bg-sef-gold rounded-full flex items-center justify-center">
+                            <span class="text-sef-navy font-bold text-xl">S</span>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-xl font-bold">SEFALANA</h1>
+                        <p class="text-xs text-gray-300">Retail & Wholesale</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="hover:text-sef-gold transition-colors">Home</a>
+                    <a href="#specials" class="hover:text-sef-gold transition-colors">Specials</a>
+                    <a href="#stores" class="hover:text-sef-gold transition-colors">Store Locator</a>
+                    <a href="#supplier" class="hover:text-sef-gold transition-colors">B2B Supplier</a>
+                    <a href="#admin" class="bg-sef-gold text-sef-navy px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition-colors">
+                        Admin Portal
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-sef-deepblue">
+            <a href="#home" class="block px-4 py-2 hover:bg-sef-lightblue">Home</a>
+            <a href="#specials" class="block px-4 py-2 hover:bg-sef-lightblue">Specials</a>
+            <a href="#stores" class="block px-4 py-2 hover:bg-sef-lightblue">Store Locator</a>
+            <a href="#supplier" class="block px-4 py-2 hover:bg-sef-lightblue">B2B Supplier</a>
+            <a href="#admin" class="block px-4 py-2 bg-sef-gold text-sef-navy font-semibold">Admin Portal</a>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- Hero Section                                -->
+    <!-- ============================================ -->
+    <section id="home" class="relative bg-sef-navy text-white overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-sef-navy via-sef-deepblue to-sef-lightblue"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+            <div class="text-center fade-in">
+                <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                    Welcome to <span class="text-sef-gold">Sefalana</span>
+                </h2>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                    Botswana's Leading FMCG & Retail Wholesale Giant
+                </p>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-10">
+                    Serving Botswana since 1974 with quality products, unbeatable prices, 
+                    and exceptional customer service across the nation.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#specials" class="px-8 py-3 bg-sef-gold text-sef-navy rounded-lg font-semibold hover:bg-yellow-400 transition-colors hover-scale">
+                        View Weekly Specials
+                    </a>
+                    <a href="#stores" class="px-8 py-3 bg-white text-sef-navy rounded-lg font-semibold hover:bg-gray-100 transition-colors hover-scale">
+                        Find a Store
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Bar -->
+        <div class="relative bg-sef-deepblue bg-opacity-50 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-4 py-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div>
+                        <p class="text-3xl font-bold text-sef-gold">50+</p>
+                        <p class="text-sm text-gray-300">Years of Service</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-sef-gold">20+</p>
+                        <p class="text-sm text-gray-300">Store Locations</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-sef-gold">10k+</p>
+                        <p class="text-sm text-gray-300">Products</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-sef-gold">1M+</p>
+                        <p class="text-sm text-gray-300">Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Weekly Specials Section                     -->
+    <!-- ============================================ -->
+    <section id="specials" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-sef-navy mb-4">
+                    This Week's Special Combos
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Grab unbeatable deals on our most popular combos. Limited time offers at all Sefalana stores nationwide.
+                </p>
+            </div>
+            
+            <!-- Specials Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button onclick="filterSpecials('all')" class="special-filter px-6 py-2 rounded-full font-medium bg-sef-navy text-white" data-filter="all">
+                    All Specials
+                </button>
+                <button onclick="filterSpecials('featured')" class="special-filter px-6 py-2 rounded-full font-medium bg-white text-sef-navy" data-filter="featured">
+                    Featured
+                </button>
+                <button onclick="filterSpecials('food')" class="special-filter px-6 py-2 rounded-full font-medium bg-white text-sef-navy" data-filter="food">
+                    Food & Beverages
+                </button>
+                <button onclick="filterSpecials('household')" class="special-filter px-6 py-2 rounded-full font-medium bg-white text-sef-navy" data-filter="household">
+                    Household
+                </button>
+            </div>
+            
+            <!-- Specials Grid -->
+            <div id="specialsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Specials will be loaded dynamically -->
+                <div class="col-span-full text-center py-8">
+                    <div class="loading-spinner mx-auto"></div>
+                    <p class="text-gray-500 mt-4">Loading specials...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Store Locator Section                       -->
+    <!-- ============================================ -->
+    <section id="stores" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-sef-navy mb-4">
+                    Find a Sefalana Store Near You
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    With stores across Botswana, there's always a Sefalana nearby to serve you.
+                </p>
+            </div>
+            
+            <!-- Search and Filters -->
+            <div class="bg-gray-50 rounded-xl shadow-md p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                        <input type="text" id="storeSearch" oninput="filterStores()" placeholder="Search by name or address..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                        <select id="cityFilter" onchange="filterStores()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                            <option value="">All Cities</option>
+                            <option value="Gaborone">Gaborone</option>
+                            <option value="Francistown">Francistown</option>
+                            <option value="Maun">Maun</option>
+                            <option value="Broadhurst">Broadhurst</option>
+                            <option value="Mogoditshane">Mogoditshane</option>
+                            <option value="Selebi-Phikwe">Selebi-Phikwe</option>
+                            <option value="Tlokweng">Tlokweng</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Store Format</label>
+                        <select id="formatFilter" onchange="filterStores()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                            <option value="">All Formats</option>
+                            <option value="Sefalana Hyper">Sefalana Hyper</option>
+                            <option value="Sefalana Shopper">Sefalana Shopper</option>
+                            <option value="Cash & Carry">Cash & Carry</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Store Cards Grid -->
+            <div id="storesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Stores will be loaded dynamically -->
+                <div class="col-span-full text-center py-8">
+                    <div class="loading-spinner mx-auto"></div>
+                    <p class="text-gray-500 mt-4">Loading stores...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Supplier Inquiry Section                    -->
+    <!-- ============================================ -->
+    <section id="supplier" class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-sef-navy mb-4">
+                    Become a Sefalana Supplier
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Partner with Botswana's leading retailer. Submit your business inquiry and our procurement team will contact you.
+                </p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <div id="supplierSuccess" class="hidden bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+                    Thank you for your interest! Our team will contact you within 2 business days.
+                </div>
+                
+                <form id="supplierForm" onsubmit="submitSupplierInquiry(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
+                            <input type="text" id="companyName" required minlength="2"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Person *</label>
+                            <input type="text" id="contactPerson" required minlength="2"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <input type="email" id="supplierEmail" required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                            <input type="tel" id="supplierPhone" required pattern="[0-9+]{10,}"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Business Type</label>
+                            <select id="businessType" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                                <option value="">Select Type</option>
+                                <option value="manufacturer">Manufacturer</option>
+                                <option value="distributor">Distributor</option>
+                                <option value="wholesaler">Wholesaler</option>
+                                <option value="farmer">Farmer/Producer</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Annual Revenue Range</label>
+                            <select id="revenueRange" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                                <option value="">Select Range</option>
+                                <option value="under-1m">Under P1 Million</option>
+                                <option value="1m-5m">P1 Million - P5 Million</option>
+                                <option value="5m-20m">P5 Million - P20 Million</option>
+                                <option value="over-20m">Over P20 Million</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Product Categories</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Food & Beverages" class="product-category mr-2">
+                                Food & Beverages
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Household" class="product-category mr-2">
+                                Household
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Electronics" class="product-category mr-2">
+                                Electronics
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Clothing" class="product-category mr-2">
+                                Clothing
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Construction" class="product-category mr-2">
+                                Construction
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" value="Agriculture" class="product-category mr-2">
+                                Agriculture
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                        <textarea id="supplierMessage" required minlength="10" rows="4"
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy"
+                                  placeholder="Tell us about your products and services..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-sef-navy text-white py-3 rounded-lg font-semibold hover:bg-sef-deepblue transition-colors">
+                        Submit Inquiry
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Admin Portal Section                        -->
+    <!-- ============================================ -->
+    <section id="admin" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-sef-navy mb-4">
+                    Admin Portal
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Secure access for Sefalana staff to manage stores, specials, and supplier inquiries.
+                </p>
+            </div>
+            
+            <div class="max-w-md mx-auto bg-gray-50 rounded-xl shadow-lg p-8">
+                <div id="adminError" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4"></div>
+                
+                <form id="adminLoginForm" onsubmit="adminLogin(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        <input type="email" id="adminEmail" required placeholder="admin@sefalana.co.bw"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" id="adminPassword" required minlength="6" placeholder="••••••••"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sef-navy">
+                    </div>
+                    <button type="submit" class="w-full bg-sef-navy text-white py-3 rounded-lg font-semibold hover:bg-sef-deepblue transition-colors">
+                        Sign In
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Admin Dashboard (Hidden until login) -->
+            <div id="adminDashboard" class="hidden mt-12">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-sef-navy">Dashboard</h3>
+                        <button onclick="adminLogout()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                            Logout
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-blue-50 rounded-lg p-6 text-center">
+                            <p class="text-3xl font-bold text-sef-navy" id="totalStores">0</p>
+                            <p class="text-gray-600">Total Stores</p>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-6 text-center">
+                            <p class="text-3xl font-bold text-sef-navy" id="activeSpecials">0</p>
+                            <p class="text-gray-600">Active Specials</p>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-6 text-center">
+                            <p class="text-3xl font-bold text-sef-navy" id="pendingInquiries">0</p>
+                            <p class="text-gray-600">Pending Inquiries</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-6 text-center">
+                            <p class="text-3xl font-bold text-sef-navy">P2.5M</p>
+                            <p class="text-gray-600">Monthly Revenue</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-sef-navy mb-4">Recent Supplier Inquiries</h3>
+                    <div id="adminInquiries" class="space-y-4">
+                        <!-- Inquiries will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- Footer                                      -->
+    <!-- ============================================ -->
+    <footer class="bg-sef-navy text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Sefalana Group</h3>
+                    <p class="text-gray-400">
+                        Serving Botswana since 1974 with quality products and exceptional service.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#specials" class="text-gray-400 hover:text-sef-gold">Weekly Specials</a></li>
+                        <li><a href="#stores" class="text-gray-400 hover:text-sef-gold">Store Locator</a></li>
+                        <li><a href="#supplier" class="text-gray-400 hover:text-sef-gold">Become a Supplier</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <p class="text-gray-400">Plot 54376, Gaborone West Industrial</p>
+                    <p class="text-gray-400">Gaborone, Botswana</p>
+                    <p class="text-gray-400">Tel: +267 391 4222</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-500">© 2024 Sefalana. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- JavaScript - Application Logic              -->
+    <!-- ============================================ -->
+    <script>
+        // ============================================
+        // Data Store (Simulated Database)
+        // ============================================
+        const sefalanaData = {
+            stores: [
+                {
+                    id: 1,
+                    name: 'Sefalana Hyper Gaborone',
+                    format: 'Sefalana Hyper',
+                    address: 'Plot 54376, Gaborone West Industrial',
+                    city: 'Gaborone',
+                    region: 'South-East',
+                    phone: '+267 391 4222',
+                    email: 'hyper.gabs@sefalana.co.bw',
+                    hours: 'Mon-Fri: 07:00-19:00, Sat: 07:00-17:00, Sun: 08:00-14:00',
+                    isActive: true
+                },
+                {
+                    id: 2,
+                    name: 'Sefalana Shopper Main Mall',
+                    format: 'Sefalana Shopper',
+                    address: 'Main Mall, Gaborone',
+                    city: 'Gaborone',
+                    region: 'South-East',
+                    phone: '+267 397 2153',
+                    email: 'shopper.mainmall@sefalana.co.bw',
+                    hours: 'Mon-Fri: 08:00-18:00, Sat: 08:00-16:00, Sun: 09:00-13:00',
+                    isActive: true
+                },
+                {
+                    id: 3,
+                    name: 'Sefalana Cash & Carry Francistown',
+                    format: 'Cash & Carry',
+                    address: 'Plot 2145, Light Industrial',
+                    city: 'Francistown',
+                    region: 'North-East',
+                    phone: '+267 241 2278',
+                    email: 'cnc.ftown@sefalana.co.bw',
+                    hours: 'Mon-Fri: 07:30-18:30, Sat: 08:00-16:00, Sun: Closed',
+                    isActive: true
+                },
+                {
+                    id: 4,
+                    name: 'Sefalana Shopper Broadhurst',
+                    format: 'Sefalana Shopper',
+                    address: 'Plot 1058, Broadhurst Mall',
+                    city: 'Broadhurst',
+                    region: 'South-East',
+                    phone: '+267 393 7645',
+                    email: 'shopper.broadhurst@sefalana.co.bw',
+                    hours: 'Mon-Fri: 08:00-19:00, Sat: 08:00-17:00, Sun: 09:00-14:00',
+                    isActive: true
+                },
+                {
+                    id: 5,
+                    name: 'Sefalana Hyper Maun',
+                    format: 'Sefalana Hyper',
+                    address: 'Plot 78, Maun Industrial',
+                    city: 'Maun',
+                    region: 'North-West',
+                    phone: '+267 686 0492',
+                    email: 'hyper.maun@sefalana.co.bw',
+                    hours: 'Mon-Fri: 07:30-19:00, Sat: 08:00-16:00, Sun: 09:00-13:00',
+                    isActive: true
+                },
+                {
+                    id: 6,
+                    name: 'Sefalana Cash & Carry Mogoditshane',
+                    format: 'Cash & Carry',
+                    address: 'Plot 3928, Mogoditshane',
+                    city: 'Mogoditshane',
+                    region: 'South-East',
+                    phone: '+267 318 9311',
+                    email: 'cnc.mogoditshane@sefalana.co.bw',
+                    hours: 'Mon-Fri: 07:00-18:30, Sat: 08:00-16:00, Sun: Closed',
+                    isActive: true
+                },
+                {
+                    id: 7,
+                    name: 'Sefalana Shopper Selebi-Phikwe',
+                    format: 'Sefalana Shopper',
+                    address: 'Plot 2934, Town Centre',
+                    city: 'Selebi-Phikwe',
+                    region: 'Central',
+                    phone: '+267 261 0756',
+                    email: 'shopper.spikwe@sefalana.co.bw',
+                    hours: 'Mon-Fri: 08:00-18:00, Sat: 08:00-15:00, Sun: Closed',
+                    isActive: true
+                },
+                {
+                    id: 8,
+                    name: 'Sefalana Hyper Tlokweng',
+                    format: 'Sefalana Hyper',
+                    address: 'Plot 745, Tlokweng',
+                    city: 'Tlokweng',
+                    region: 'South-East',
+                    phone: '+267 392 5418',
+                    email: 'hyper.tlokweng@sefalana.co.bw',
+                    hours: 'Mon-Fri: 07:30-19:30, Sat: 08:00-17:00, Sun: 09:00-14:00',
+                    isActive: true
+                }
+            ],
+            
+            specials: [
+                {
+                    id: 1,
+                    title: 'Tiger Combo Special',
+                    description: 'Tiger bread + 2L Coke + 1kg Sugar',
+                    comboName: 'Tiger Combo',
+                    originalPrice: 89.99,
+                    specialPrice: 65.00,
+                    category: 'food',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: true,
+                    savings: '27.78%'
+                },
+                {
+                    id: 2,
+                    title: 'Economy Combo',
+                    description: '10kg Maize Meal + 2L Cooking Oil + 1kg Sugar Beans',
+                    comboName: 'Economy Combo',
+                    originalPrice: 249.99,
+                    specialPrice: 199.99,
+                    category: 'food',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: true,
+                    savings: '20.00%'
+                },
+                {
+                    id: 3,
+                    title: 'Family Breakfast Pack',
+                    description: '2kg Corn Flakes + 2L Long Life Milk + 500g Tea',
+                    comboName: 'Breakfast Combo',
+                    originalPrice: 159.99,
+                    specialPrice: 129.99,
+                    category: 'food',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: true,
+                    savings: '18.75%'
+                },
+                {
+                    id: 4,
+                    title: 'Braai Day Special',
+                    description: '2kg Mixed Meat + 2L Cold Drink + 500g Salad',
+                    comboName: 'Braai Combo',
+                    originalPrice: 189.99,
+                    specialPrice: 149.99,
+                    category: 'food',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: false,
+                    savings: '21.06%'
+                },
+                {
+                    id: 5,
+                    title: 'Cleaning Essentials',
+                    description: '5L Bleach + 2L Dishwashing Liquid + 500g Powder',
+                    comboName: 'Cleaning Combo',
+                    originalPrice: 129.99,
+                    specialPrice: 99.99,
+                    category: 'household',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: false,
+                    savings: '23.08%'
+                },
+                {
+                    id: 6,
+                    title: 'Student Survival Pack',
+                    description: '5kg Rice + 1L Cooking Oil + 500g Salt',
+                    comboName: 'Student Pack',
+                    originalPrice: 119.99,
+                    specialPrice: 89.99,
+                    category: 'food',
+                    imageUrl: '/api/placeholder/400/300',
+                    isFeatured: true,
+                    savings: '25.00%'
+                }
+            ],
+            
+            supplierInquiries: [
+                {
+                    id: 1,
+                    companyName: 'Botswana Fresh Produce',
+                    contactPerson: 'John Kgosi',
+                    email: 'john@botswanafresh.co.bw',
+                    phone: '+267 71234567',
+                    message: 'We supply fresh vegetables and fruits from local farmers.',
+                    status: 'pending',
+                    date: '2024-01-15'
+                },
+                {
+                    id: 2,
+                    companyName: 'Kgalagadi Beverages',
+                    contactPerson: 'Mary Mokgadi',
+                    email: 'mary@kgalagadibev.co.bw',
+                    phone: '+267 72345678',
+                    message: 'Local beverage manufacturer looking to partner with Sefalana.',
+                    status: 'contacted',
+                    date: '2024-01-14'
+                }
+            ],
+            
+            adminUsers: [
+                {
+                    id: 1,
+                    email: 'admin@sefalana.co.bw',
+                    passwordHash: 'hashed_password_here', // In production, this would be bcrypt hashed
+                    fullName: 'System Administrator',
+                    role: 'admin'
+                }
+            ]
+        };
+        
+        // ============================================
+        // Security Utilities
+        // ============================================
+        const SecurityUtils = {
+            // Simulated rate limiting
+            rateLimit: new Map(),
+            
+            checkRateLimit(key, maxAttempts = 100, windowMs = 900000) {
+                const now = Date.now();
+                const userAttempts = this.rateLimit.get(key) || [];
+                const recentAttempts = userAttempts.filter(timestamp => now - timestamp < windowMs);
+                
+                if (recentAttempts.length >= maxAttempts) {
+                    return false;
+                }
+                
+                recentAttempts.push(now);
+                this.rateLimit.set(key, recentAttempts);
+                return true;
+            },
+            
+            // Input sanitization
+            sanitizeInput(input) {
+                if (typeof input !== 'string') return input;
+                
+                return input
+                    .replace(/<[^>]*>/g, '') // Remove HTML tags
+                    .replace(/[<>'"&]/g, (char) => {
+                        const entities = {
+                            '<': '&lt;',
+                            '>': '&gt;',
+                            '"': '&quot;',
+                            "'": '&#x27;',
+                            '&': '&amp;'
+                        };
+                        return entities[char];
+                    })
+                    .trim();
+            },
+            
+            // Email validation
+            validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            },
+            
+            // Phone validation
+            validatePhone(phone) {
+                const phoneRegex = /^\+?[\d\s-]{10,}$/;
+                return phoneRegex.test(phone);
+            },
+            
+            // Simulated JWT token generation
+            generateToken(payload) {
+                const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+                const body = btoa(JSON.stringify({
+                    ...payload,
+                    exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+                }));
+                const signature = btoa('sefalana-secret-key'); // In production, use proper signing
+                
+                return `${header}.${body}.${signature}`;
+            },
+            
+            // Simulated JWT verification
+            verifyToken(token) {
+                try {
+                    const parts = token.split('.');
+                    if (parts.length !== 3) return null;
+                    
+                    const payload = JSON.parse(atob(parts[1]));
+                    
+                    if (payload.exp < Date.now()) {
+                        return null; // Token expired
+                    }
+                    
+                    return payload;
+                } catch (error) {
+                    return null;
+                }
+            },
+            
+            // Simulated password hashing (in production, use bcrypt)
+            hashPassword(password) {
+                // Simple hash for demonstration (DO NOT use in production)
+                let hash = 0;
+                for (let i = 0; i < password.length; i++) {
+                    const char = password.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return `hashed_${hash}`;
+            },
+            
+            // Verify password
+            verifyPassword(password, hash) {
+                return this.hashPassword(password) === hash;
+            }
+        };
+        
+        // ============================================
+        // Mobile Menu Functions
+        // ============================================
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Close mobile menu when clicking a link
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuButton = event.target.closest('button');
+            
+            if (mobileMenu && !mobileMenu.classList.contains('hidden') && 
+                !menuButton && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+        
+        // ============================================
+        // Store Locator Functions
+        // ============================================
+        function filterStores() {
+            const searchTerm = SecurityUtils.sanitizeInput(document.getElementById('storeSearch').value.toLowerCase());
+            const cityFilter = document.getElementById('cityFilter').value;
+            const formatFilter = document.getElementById('formatFilter').value;
+            
+            const filteredStores = sefalanaData.stores.filter(store => {
+                const matchesSearch = !searchTerm || 
+                    store.name.toLowerCase().includes(searchTerm) ||
+                    store.address.toLowerCase().includes(searchTerm);
+                const matchesCity = !cityFilter || store.city === cityFilter;
+                const matchesFormat = !formatFilter || store.format === formatFilter;
+                
+                return matchesSearch && matchesCity && matchesFormat;
+            });
+            
+            renderStores(filteredStores);
+        }
+        
+        function renderStores(stores) {
+            const storesGrid = document.getElementById('storesGrid');
+            
+            if (stores.length === 0) {
+                storesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-gray-500">No stores found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            storesGrid.innerHTML = stores.map(store => `
+                <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-200">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-sef-navy">${store.name}</h3>
+                            <span class="inline-block bg-sef-navy text-white text-xs px-3 py-1 rounded-full mt-2">
+                                ${store.format}
+                            </span>
+                        </div>
+                        <span class="text-2xl">📍</span>
+                    </div>
+                    
+                    <div class="space-y-2 text-gray-600">
+                        <p class="text-sm">${store.address}</p>
+                        <p class="text-sm font-medium">${store.city}, ${store.region}</p>
+                        <p class="text-sm">📞 ${store.phone}</p>
+                        <p class="text-sm">✉️ ${store.email}</p>
+                        <p class="text-xs text-gray-400 mt-2">🕐 ${store.hours}</p>
+                    </div>
+                    
+                    <button onclick="viewStoreDetails(${store.id})" 
+                            class="mt-4 w-full bg-white border border-sef-navy text-sef-navy py-2 rounded-lg font-medium hover:bg-sef-navy hover:text-white transition-colors">
+                        View Details
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function viewStoreDetails(storeId) {
+            const store = sefalanaData.stores.find(s => s.id === storeId);
+            if (store) {
+                alert(`
+                    Store Details:
+                    Name: ${store.name}
+                    Format: ${store.format}
+                    Address: ${store.address}
+                    City: ${store.city}
+                    Phone: ${store.phone}
+                    Email: ${store.email}
+                    Hours: ${store.hours}
+                `);
+            }
+        }
+        
+        // ============================================
+        // Specials Functions
+        // ============================================
+        function filterSpecials(filter) {
+            // Update active button styles
+            document.querySelectorAll('.special-filter').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.add('bg-sef-navy', 'text-white');
+                    btn.classList.remove('bg-white', 'text-sef-navy');
+                } else {
+                    btn.classList.remove('bg-sef-navy', 'text-white');
+                    btn.classList.add('bg-white', 'text-sef-navy');
+                }
+            });
+            
+            let filteredSpecials;
+            if (filter === 'all') {
+                filteredSpecials = sefalanaData.specials;
+            } else if (filter === 'featured') {
+                filteredSpecials = sefalanaData.specials.filter(s => s.isFeatured);
+            } else {
+                filteredSpecials = sefalanaData.specials.filter(s => s.category === filter);
+            }
+            
+            renderSpecials(filteredSpecials);
+        }
+        
+        function renderSpecials(specials) {
+            const specialsGrid = document.getElementById('specialsGrid');
+            
+            specialsGrid.innerHTML = specials.map(special => `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="${special.imageUrl}" alt="${special.title}" 
+                             class="w-full h-full object-cover" loading="lazy">
+                        ${special.isFeatured ? `
+                            <span class="absolute top-2 right-2 bg-sef-gold text-sef-navy text-xs font-bold px-2 py-1 rounded-full">
+                                ⭐ FEATURED
+                            </span>
+                        ` : ''}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-sef-navy mb-2">
+                            ${special.comboName}
+                        </h3>
+                        <p class="text-gray-600 mb-4">${special.description}</p>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="text-2xl font-bold text-sef-navy">P${special.specialPrice.toFixed(2)}</span>
+                                <span class="ml-2 text-gray-400 line-through">P${special.originalPrice.toFixed(2)}</span>
+                            </div>
+                            <span class="savings-badge text-sef-navy text-sm font-semibold px-3 py-1 rounded-full">
+                                Save ${special.savings}
+                            </span>
+                        </div>
+                        
+                        <button onclick="addToCart('${special.comboName}')" 
+                                class="w-full bg-sef-navy text-white py-2 rounded-lg font-medium hover:bg-sef-deepblue transition-colors">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function addToCart(comboName) {
+            alert(`${comboName} added to cart! (Demo feature)`);
+        }
+        
+        // ============================================
+        // Supplier Inquiry Functions
+        // ============================================
+        function submitSupplierInquiry(event) {
+            event.preventDefault();
+            
+            // Check rate limit
+            if (!SecurityUtils.checkRateLimit('supplier', 5, 60000)) {
+                alert('Too many submissions. Please try again later.');
+                return false;
+            }
+            
+            // Get form data
+            const companyName = SecurityUtils.sanitizeInput(document.getElementById('companyName').value);
+            const contactPerson = SecurityUtils.sanitizeInput(document.getElementById('contactPerson').value);
+            const email = SecurityUtils.sanitizeInput(document.getElementById('supplierEmail').value);
+            const phone = SecurityUtils.sanitizeInput(document.getElementById('supplierPhone').value);
+            const businessType = document.getElementById('businessType').value;
+            const revenueRange = document.getElementById('revenueRange').value;
+            const message = SecurityUtils.sanitizeInput(document.getElementById('supplierMessage').value);
+            
+            // Validate inputs
+            if (!SecurityUtils.validateEmail(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            
+            if (!SecurityUtils.validatePhone(phone)) {
+                alert('Please enter a valid phone number.');
+                return false;
+            }
+            
+            // Get selected categories
+            const categories = Array.from(document.querySelectorAll('.product-category:checked'))
+                .map(checkbox => checkbox.value);
+            
+            // Create inquiry object
+            const inquiry = {
+                id: sefalanaData.supplierInquiries.length + 1,
+                companyName,
+                contactPerson,
+                email,
+                phone,
+                businessType,
+                revenueRange,
+                categories,
+                message,
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            // Add to data store
+            sefalanaData.supplierInquiries.push(inquiry);
+            
+            // Show success message
+            const successDiv = document.getElementById('supplierSuccess');
+            successDiv.classList.remove('hidden');
+            
+            // Reset form
+            document.getElementById('supplierForm').reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successDiv.classList.add('hidden');
+            }, 5000);
+            
+            console.log('Supplier inquiry submitted:', inquiry);
+            
+            return false;
+        }
+        
+        // ============================================
+        // Admin Functions
+        // ============================================
+        function adminLogin(event) {
+            event.preventDefault();
+            
+            // Check rate limit
+            if (!SecurityUtils.checkRateLimit('admin-login', 5, 60000)) {
+                document.getElementById('adminError').textContent = 'Too many attempts. Please try again later.';
+                document.getElementById('adminError').classList.remove('hidden');
+                return false;
+            }
+            
+            const email = SecurityUtils.sanitizeInput(document.getElementById('adminEmail').value);
+            const password = document.getElementById('adminPassword').value;
+            
+            // Find admin user
+            const adminUser = sefalanaData.adminUsers.find(user => user.email === email);
+            
+            if (!adminUser || !SecurityUtils.verifyPassword(password, adminUser.passwordHash)) {
+                document.getElementById('adminError').textContent = 'Invalid email or password.';
+                document.getElementById('adminError').classList.remove('hidden');
+                return false;
+            }
+            
+            // Generate token
+            const token = SecurityUtils.generateToken({
+                id: adminUser.id,
+                email: adminUser.email,
+                role: adminUser.role
+            });
+            
+            // Store token in session storage
+            sessionStorage.setItem('admin_token', token);
+            sessionStorage.setItem('admin_user', JSON.stringify(adminUser));
+            
+            // Show dashboard
+            showAdminDashboard();
+            
+            return false;
+        }
+        
+        function showAdminDashboard() {
+            const token = sessionStorage.getItem('admin_token');
+            
+            if (!token || !SecurityUtils.verifyToken(token)) {
+                alert('Session expired. Please login again.');
+                return;
+            }
+            
+            // Hide login form
+            document.getElementById('adminLoginForm').classList.add('hidden');
+            document.getElementById('adminError').classList.add('hidden');
+            
+            // Show dashboard
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            
+            // Update stats
+            document.getElementById('totalStores').textContent = sefalanaData.stores.length;
+            document.getElementById('activeSpecials').textContent = sefalanaData.specials.length;
+            document.getElementById('pendingInquiries').textContent = 
+                sefalanaData.supplierInquiries.filter(i => i.status === 'pending').length;
+            
+            // Render inquiries
+            renderAdminInquiries();
+        }
+        
+        function renderAdminInquiries() {
+            const inquiriesDiv = document.getElementById('adminInquiries');
+            const pendingInquiries = sefalanaData.supplierInquiries.filter(i => i.status === 'pending');
+            
+            if (pendingInquiries.length === 0) {
+                inquiriesDiv.innerHTML = '<p class="text-gray-500">No pending inquiries.</p>';
+                return;
+            }
+            
+            inquiriesDiv.innerHTML = pendingInquiries.map(inquiry => `
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-semibold text-sef-navy">${inquiry.companyName}</h4>
+                            <p class="text-sm text-gray-600">${inquiry.contactPerson}</p>
+                            <p class="text-sm text-gray-600">${inquiry.email}</p>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">
+                            ${inquiry.status}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">${inquiry.message}</p>
+                    <div class="flex gap-2 mt-3">
+                        <button onclick="updateInquiryStatus(${inquiry.id}, 'contacted')" 
+                                class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+                            Mark Contacted
+                        </button>
+                        <button onclick="updateInquiryStatus(${inquiry.id}, 'archived')" 
+                                class="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700">
+                            Archive
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function updateInquiryStatus(inquiryId, status) {
+            const inquiry = sefalanaData.supplierInquiries.find(i => i.id === inquiryId);
+            if (inquiry) {
+                inquiry.status = status;
+                renderAdminInquiries();
+                document.getElementById('pendingInquiries').textContent = 
+                    sefalanaData.supplierInquiries.filter(i => i.status === 'pending').length;
+            }
+        }
+        
+        function adminLogout() {
+            sessionStorage.removeItem('admin_token');
+            sessionStorage.removeItem('admin_user');
+            
+            // Show login form
+            document.getElementById('adminLoginForm').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            
+            // Clear form
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+        
+        // ============================================
+        // Initialize Application
+        // ============================================
+        function initializeApp() {
+            // Render initial data
+            renderStores(sefalanaData.stores);
+            renderSpecials(sefalanaData.specials);
+            
+            // Check if admin is already logged in
+            const token = sessionStorage.getItem('admin_token');
+            if (token && SecurityUtils.verifyToken(token)) {
+                showAdminDashboard();
+            }
+            
+            console.log('Sefalana Enterprise Website initialized successfully');
+            console.log('Security features enabled: rate limiting, input sanitization, XSS protection');
+            console.log(`Loaded ${sefalanaData.stores.length} stores, ${sefalanaData.specials.length} specials`);
+        }
+        
+        // Run initialization when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeApp);
+        
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // ============================================
+        // SQL Schema Definition (For Reference)
+        // ============================================
+        /*
+        -- PostgreSQL Database Schema
+        -- Execute this in your PostgreSQL database
+        
+        CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        
+        CREATE TABLE admin_users (
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            email VARCHAR(255) UNIQUE NOT NULL,
+            password_hash VARCHAR(255) NOT NULL,
+            full_name VARCHAR(100) NOT NULL,
+            role VARCHAR(20) NOT NULL DEFAULT 'editor',
+            is_active BOOLEAN DEFAULT true,
+            last_login TIMESTAMP WITH TIME ZONE,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        
+        CREATE TABLE stores (
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            name VARCHAR(200) NOT NULL,
+            format VARCHAR(50) NOT NULL,
+            address TEXT NOT NULL,
+            city VARCHAR(100) NOT NULL,
+            region VARCHAR(100),
+            latitude DECIMAL(10, 8),
+            longitude DECIMAL(11, 8),
+            phone VARCHAR(20),
+            email VARCHAR(255),
+            opening_hours JSONB,
+            is_active BOOLEAN DEFAULT true,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        
+        CREATE TABLE specials (
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            title VARCHAR(200) NOT NULL,
+            description TEXT,
+            combo_name VARCHAR(200),
+            original_price DECIMAL(10, 2) NOT NULL,
+            special_price DECIMAL(10, 2) NOT NULL,
+            currency VARCHAR(3) DEFAULT 'BWP',
+            savings_percentage DECIMAL(5, 2),
+            image_url TEXT,
+            start_date DATE NOT NULL,
+            end_date DATE NOT NULL,
+            is_featured BOOLEAN DEFAULT false,
+            stock_quantity INTEGER,
+            created_by UUID REFERENCES admin_users(id),
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        
+        CREATE TABLE supplier_inquiries (
+            id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+            company_name VARCHAR(200) NOT NULL,
+            contact_person VARCHAR(100) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            phone VARCHAR(20) NOT NULL,
+            business_type VARCHAR(100),
+            product_categories TEXT[],
+            message TEXT NOT NULL,
+            annual_revenue_range VARCHAR(50),
+            website VARCHAR(255),
+            status VARCHAR(20) DEFAULT 'pending',
+            ip_address INET,
+            user_agent TEXT,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+        
+        -- Insert sample data
+        INSERT INTO admin_users (email, password_hash, full_name, role) VALUES
+        ('admin@sefalana.co.bw', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'System Administrator', 'admin');
+        
+        -- Create indexes
+        CREATE INDEX idx_stores_city ON stores(city);
+        CREATE INDEX idx_stores_format ON stores(format);
+        CREATE INDEX idx_specials_dates ON specials(start_date, end_date);
+        CREATE INDEX idx_inquiries_status ON supplier_inquiries(status);
+        */
+        
+        // ============================================
+        // Security Middleware (For Node.js Backend)
+        // ============================================
+        /*
+        // middleware/security.ts
+        import { NextRequest, NextResponse } from 'next/server';
+        import jwt from 'jsonwebtoken';
+        import bcrypt from 'bcryptjs';
+        
+        const JWT_SECRET = process.env.JWT_SECRET || 'sefalana-secret-key';
+        const rateLimitMap = new Map();
+        
+        export function securityHeaders() {
+            return {
+                'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline'",
+                'X-Content-Type-Options': 'nosniff',
+                'X-Frame-Options': 'DENY',
+                'X-XSS-Protection': '1; mode=block',
+                'Referrer-Policy': 'strict-origin-when-cross-origin',
+                'Strict-Transport-Security': 'max-age=31536000; includeSubDomains'
+            };
+        }
+        
+        export function sanitizeInput(input: string): string {
+            return input
+                .replace(/<[^>]*>/g, '')
+                .replace(/[<>'"&]/g, (char) => ({
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#x27;',
+                    '&': '&amp;'
+                }[char]))
+                .trim();
+        }
+        
+        export function rateLimit(request: NextRequest) {
+            const ip = request.ip || 'unknown';
+            const now = Date.now();
+            const windowMs = 15 * 60 * 1000; // 15 minutes
+            const maxRequests = 100;
+            
+            const userRequests = rateLimitMap.get(ip) || [];
+            const recentRequests = userRequests.filter(t => now - t < windowMs);
+            
+            if (recentRequests.length >= maxRequests) {
+                return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+            }
+            
+            recentRequests.push(now);
+            rateLimitMap.set(ip, recentRequests);
+            return null;
+        }
+        
+        export function generateToken(payload: any): string {
+            return jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
+        }
+        
+        export function verifyToken(token: string): any {
+            try {
+                return jwt.verify(token, JWT_SECRET);
+            } catch (error) {
+                return null;
+            }
+        }
+        */
+    </script>
+</body>
+  </html>
